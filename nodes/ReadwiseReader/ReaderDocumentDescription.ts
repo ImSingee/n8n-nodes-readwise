@@ -53,6 +53,12 @@ export const documentOperations: INodeProperties[] = [
                 value: 'delete',
                 description: 'Delete a document',
                 action: 'Delete a document',
+                routing: {
+                    request: {
+                        method: 'DELETE',
+                        url: '=/delete/{{$parameter.documentId}}/'
+                    }
+                }
             },
         ],
         default: 'create',
@@ -689,6 +695,20 @@ export const documentFields: INodeProperties[] = [
     },
 
     /* -------------------------------------------------------------------------- */
-    /*                                     ...                                    */
+    /*                                  delete                                    */
     /* -------------------------------------------------------------------------- */
+    {
+        displayName: 'Document ID',
+        name: 'documentId',
+        type: 'string',
+        required: true,
+        default: '',
+        displayOptions: {
+            show: {
+                resource: ['document'],
+                operation: ['delete'],
+            },
+        },
+        description: 'The unique ID of the document to delete',
+    },
 ];
