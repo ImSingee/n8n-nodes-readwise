@@ -41,6 +41,12 @@ export const documentOperations: INodeProperties[] = [
                 value: 'update',
                 description: 'Update a document',
                 action: 'Update a document',
+                routing: {
+                    request: {
+                        method: 'PATCH',
+                        url: '=/update/{{$parameter.documentId}}/'
+                    }
+                }
             },
             {
                 name: 'Delete',
@@ -488,6 +494,193 @@ export const documentFields: INodeProperties[] = [
                     request: {
                         qs: {
                             withHtmlContent: '={{$value}}'
+                        }
+                    }
+                }
+            },
+        ]
+    },
+
+    /* -------------------------------------------------------------------------- */
+    /*                                  update                                    */
+    /* -------------------------------------------------------------------------- */
+    {
+        displayName: 'Document ID',
+        name: 'documentId',
+        type: 'string',
+        required: true,
+        default: '',
+        displayOptions: {
+            show: {
+                resource: ['document'],
+                operation: ['update'],
+            },
+        },
+        description: 'The unique ID of the document to update',
+    },
+    {
+        displayName: 'Update Fields',
+        name: 'updateFields',
+        type: 'collection',
+        placeholder: 'Add Field',
+        default: {},
+        displayOptions: {
+            show: {
+                resource: ['document'],
+                operation: ['update'],
+            },
+        },
+        options: [
+            {
+                displayName: 'Author',
+                name: 'author',
+                type: 'string',
+                default: '',
+                description: 'The document\'s author, it will overwrite the original author (if found during the parsing step)',
+                routing: {
+                    request: {
+                        body: {
+                            author: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Category',
+                name: 'category',
+                type: 'options',
+                default: 'article',
+                options: [
+                    {
+                        name: 'Article',
+                        value: 'article',
+                    },
+                    {
+                        name: 'Email',
+                        value: 'email',
+                    },
+                    {
+                        name: 'EPUB',
+                        value: 'epub',
+                    },
+                    {
+                        name: 'Highlight',
+                        value: 'highlight',
+                    },
+                    {
+                        name: 'Note',
+                        value: 'note',
+                    },
+                    {
+                        name: 'PDF',
+                        value: 'pdf',
+                    },
+                    {
+                        name: 'RSS',
+                        value: 'rss',
+                    },
+                    {
+                        name: 'Tweet',
+                        value: 'tweet',
+                    },
+                    {
+                        name: 'Video',
+                        value: 'video',
+                    },
+                ],
+                description: 'The document\'s category',
+                routing: {
+                    request: {
+                        body: {
+                            category: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Image URL',
+                name: 'image_url',
+                type: 'string',
+                default: '',
+                description: 'An image URL to use as cover image',
+                routing: {
+                    request: {
+                        body: {
+                            image_url: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Location',
+                name: 'location',
+                type: 'options',
+                default: 'archive',
+                options: [
+                    {
+                        name: 'Archive',
+                        value: 'archive',
+                    },
+                    {
+                        name: 'Feed',
+                        value: 'feed',
+                    },
+                    {
+                        name: 'Later',
+                        value: 'later',
+                    },
+                    {
+                        name: 'New',
+                        value: 'new',
+                    },
+                ],
+                description: 'Represents the current location of the document (previously called triage_status). Note: if you try to use a location the user doesn\'t have enabled in their settings, this value will be set to their default location.',
+                routing: {
+                    request: {
+                        body: {
+                            location: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Published Date',
+                name: 'published_date',
+                type: 'dateTime',
+                default: '',
+                description: 'A datetime representing when the document was published in the ISO 8601 format; default timezone is UTC. Example: "2020-07-14T20:11:24+00:00".',
+                routing: {
+                    request: {
+                        body: {
+                            published_date: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Summary',
+                name: 'summary',
+                type: 'string',
+                default: '',
+                description: 'Summary of the document',
+                routing: {
+                    request: {
+                        body: {
+                            summary: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Title',
+                name: 'title',
+                type: 'string',
+                default: '',
+                description: 'The document\'s title, it will overwrite the original title of the document',
+                routing: {
+                    request: {
+                        body: {
+                            title: '={{$value}}'
                         }
                     }
                 }
