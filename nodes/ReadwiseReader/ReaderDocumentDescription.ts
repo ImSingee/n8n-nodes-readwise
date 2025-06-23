@@ -1,21 +1,21 @@
 import type { INodeProperties } from 'n8n-workflow';
 
 export const documentOperations: INodeProperties[] = [
-	{
-		displayName: 'Operation',
-		name: 'operation',
-		type: 'options',
-		noDataExpression: true,
-		displayOptions: {
-			show: {
-				resource: ['document'],
-			},
-		},
-		options: [
-			{
-				name: 'Create',
-				value: 'create',
-				description: 'Create a document',
+    {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        noDataExpression: true,
+        displayOptions: {
+            show: {
+                resource: ['document'],
+            },
+        },
+        options: [
+            {
+                name: 'Create',
+                value: 'create',
+                description: 'Create a document',
                 action: 'Create a document',
                 routing: {
                     request: {
@@ -23,46 +23,46 @@ export const documentOperations: INodeProperties[] = [
                         url: '/save/'
                     }
                 }
-			},
-			{
-				name: 'List',
-				value: 'list',
-				description: 'List documents',
-				action: 'List documents',
             },
             {
-				name: 'Update',
-				value: 'update',
-				description: 'Update a document',
-				action: 'Update a document',
+                name: 'List',
+                value: 'list',
+                description: 'List documents',
+                action: 'List documents',
             },
             {
-				name: 'Delete',
-				value: 'delete',
-				description: 'Delete a document',
-				action: 'Delete a document',
+                name: 'Update',
+                value: 'update',
+                description: 'Update a document',
+                action: 'Update a document',
             },
-		],
-		default: 'create',
-	},
+            {
+                name: 'Delete',
+                value: 'delete',
+                description: 'Delete a document',
+                action: 'Delete a document',
+            },
+        ],
+        default: 'create',
+    },
 ];
 
 export const documentFields: INodeProperties[] = [
-	/* -------------------------------------------------------------------------- */
-	/*                                  create                                    */
-	/* -------------------------------------------------------------------------- */
-	{
-		displayName: 'Url',
-		name: 'url',
-		type: 'string',
-		required: true,
-		default: '',
-		displayOptions: {
-			show: {
-				resource: ['document'],
-				operation: ['create'],
-			},
-		},
+    /* -------------------------------------------------------------------------- */
+    /*                                  create                                    */
+    /* -------------------------------------------------------------------------- */
+    {
+        displayName: 'Url',
+        name: 'url',
+        type: 'string',
+        required: true,
+        default: '',
+        displayOptions: {
+            show: {
+                resource: ['document'],
+                operation: ['create'],
+            },
+        },
         description: 'The document\'s unique URL. If you don\'t have one, you can provide a made up value such as https://yourapp.com#document1.',
         routing: {
             request: {
@@ -72,9 +72,247 @@ export const documentFields: INodeProperties[] = [
             }
         }
     },
+    {
+        displayName: 'Additional Fields',
+        name: 'additionalFields',
+        type: 'collection',
+        placeholder: 'Add Field',
+        default: {},
+        displayOptions: {
+            show: {
+                resource: ['document'],
+                operation: ['create'],
+            },
+        },
+        options: [
+            {
+                displayName: 'HTML',
+                name: 'html',
+                type: 'string',
+                default: '',
+                description: 'The document\'s content, in valid html. If you don\'t provide this, we will try to scrape the URL you provided to fetch html from the open web.',
+                routing: {
+                    request: {
+                        body: {
+                            html: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Should Clean HTML',
+                name: 'should_clean_html',
+                type: 'boolean',
+                default: false,
+                description: 'Whether to automatically clean the html and parse the metadata (title/author) of the document for you. Only valid when html is provided.',
+                routing: {
+                    request: {
+                        body: {
+                            should_clean_html: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Title',
+                name: 'title',
+                type: 'string',
+                default: '',
+                description: 'The document\'s title, it will overwrite the original title of the document',
+                routing: {
+                    request: {
+                        body: {
+                            title: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Author',
+                name: 'author',
+                type: 'string',
+                default: '',
+                description: 'The document\'s author, it will overwrite the original author (if found during the parsing step)',
+                routing: {
+                    request: {
+                        body: {
+                            author: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Summary',
+                name: 'summary',
+                type: 'string',
+                default: '',
+                description: 'Summary of the document',
+                routing: {
+                    request: {
+                        body: {
+                            summary: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Published Date',
+                name: 'published_date',
+                type: 'dateTime',
+                default: '',
+                description: 'A datetime representing when the document was published in the ISO 8601 format; default timezone is UTC. Example: "2020-07-14T20:11:24+00:00".',
+                routing: {
+                    request: {
+                        body: {
+                            published_date: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Image URL',
+                name: 'image_url',
+                type: 'string',
+                default: '',
+                description: 'An image URL to use as cover image',
+                routing: {
+                    request: {
+                        body: {
+                            image_url: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Location',
+                name: 'location',
+                type: 'options',
+                default: 'new',
+                options: [
+                    {
+                        name: 'New',
+                        value: 'new',
+                    },
+                    {
+                        name: 'Later',
+                        value: 'later',
+                    },
+                    {
+                        name: 'Archive',
+                        value: 'archive',
+                    },
+                    {
+                        name: 'Feed',
+                        value: 'feed',
+                    },
+                ],
+                description: 'Represents the initial location of the document (previously called triage_status). Note: if you try to use a location the user doesn\'t have enabled in their settings, this value will be set to their default location.',
+                routing: {
+                    request: {
+                        body: {
+                            location: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Category',
+                name: 'category',
+                type: 'options',
+                default: 'article',
+                options: [
+                    {
+                        name: 'Article',
+                        value: 'article',
+                    },
+                    {
+                        name: 'Email',
+                        value: 'email',
+                    },
+                    {
+                        name: 'EPUB',
+                        value: 'epub',
+                    },
+                    {
+                        name: 'Highlight',
+                        value: 'highlight',
+                    },
+                    {
+                        name: 'Note',
+                        value: 'note',
+                    },
+                    {
+                        name: 'PDF',
+                        value: 'pdf',
+                    },
+                    {
+                        name: 'RSS',
+                        value: 'rss',
+                    },
+                    {
+                        name: 'Tweet',
+                        value: 'tweet',
+                    },
+                    {
+                        name: 'Video',
+                        value: 'video',
+                    },
+                ],
+                description: 'Default is guessed based on the URL, usually article',
+                routing: {
+                    request: {
+                        body: {
+                            category: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Saved Using',
+                name: 'saved_using',
+                type: 'string',
+                default: '',
+                description: 'This value represents the source of the document',
+                routing: {
+                    request: {
+                        body: {
+                            saved_using: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Tags',
+                name: 'tags',
+                type: 'string',
+                default: '',
+                description: 'A list of strings containing tags, separated by commas. Example: "tag1,tag2".',
+                routing: {
+                    request: {
+                        body: {
+                            tags: '={{$value.split(",").map(tag => tag.trim())}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Notes',
+                name: 'notes',
+                type: 'string',
+                default: '',
+                description: 'A top-level note of the document',
+                routing: {
+                    request: {
+                        body: {
+                            notes: '={{$value}}'
+                        }
+                    }
+                }
+            },]
+    }
 
-    
-	/* -------------------------------------------------------------------------- */
-	/*                                     ...                                    */
-	/* -------------------------------------------------------------------------- */
+
+    /* -------------------------------------------------------------------------- */
+    /*                                     ...                                    */
+    /* -------------------------------------------------------------------------- */
 ];

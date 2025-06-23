@@ -9,8 +9,8 @@ export class ReadwiseReaderNode implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Readwise Reader',
 		subtitle: '={{$parameter["operation"] + " " + $parameter["resource"]}}',
-        name: 'readwiseReaderNode',
-        icon: 'file:./readwise.svg',
+		name: 'readwiseReaderNode',
+		icon: 'file:./readwise.svg',
 		group: ['transform'],
 		version: 1,
 		description: 'Readwise Reader API',
@@ -18,8 +18,8 @@ export class ReadwiseReaderNode implements INodeType {
 			name: 'Readwise Reader',
 		},
 		inputs: [NodeConnectionType.Main],
-        outputs: [NodeConnectionType.Main],
-        credentials: [
+		outputs: [NodeConnectionType.Main],
+		credentials: [
 			{
 				name: 'readwiseApi',
 				required: true,
