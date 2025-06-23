@@ -29,6 +29,12 @@ export const documentOperations: INodeProperties[] = [
                 value: 'list',
                 description: 'List documents',
                 action: 'List documents',
+                routing: {
+                    request: {
+                        method: 'GET',
+                        url: '/list/'
+                    }
+                }
             },
             {
                 name: 'Update',
@@ -309,8 +315,185 @@ export const documentFields: INodeProperties[] = [
                     }
                 }
             },]
-    }
+    },
 
+    /* -------------------------------------------------------------------------- */
+    /*                                   list                                     */
+    /* -------------------------------------------------------------------------- */
+    {
+        displayName: 'Additional Options',
+        name: 'additionalOptions',
+        type: 'collection',
+        placeholder: 'Add Option',
+        default: {},
+        displayOptions: {
+            show: {
+                resource: ['document'],
+                operation: ['list'],
+            },
+        },
+        options: [
+            {
+                displayName: 'Category',
+                name: 'category',
+                type: 'options',
+                default: 'article',
+                options: [
+                    {
+                        name: 'Article',
+                        value: 'article',
+                    },
+                    {
+                        name: 'Email',
+                        value: 'email',
+                    },
+                    {
+                        name: 'EPUB',
+                        value: 'epub',
+                    },
+                    {
+                        name: 'Highlight',
+                        value: 'highlight',
+                    },
+                    {
+                        name: 'Note',
+                        value: 'note',
+                    },
+                    {
+                        name: 'PDF',
+                        value: 'pdf',
+                    },
+                    {
+                        name: 'RSS',
+                        value: 'rss',
+                    },
+                    {
+                        name: 'Tweet',
+                        value: 'tweet',
+                    },
+                    {
+                        name: 'Video',
+                        value: 'video',
+                    },
+                ],
+                description: 'The document\'s category',
+                routing: {
+                    request: {
+                        qs: {
+                            category: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Document ID',
+                name: 'id',
+                type: 'string',
+                default: '',
+                description: 'The document\'s unique ID. Using this parameter it will return just one document, if found.',
+                routing: {
+                    request: {
+                        qs: {
+                            id: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Location',
+                name: 'location',
+                type: 'options',
+                default: 'new',
+                options: [
+                    {
+                        name: 'Archive',
+                        value: 'archive',
+                    },
+                    {
+                        name: 'Feed',
+                        value: 'feed',
+                    },
+                    {
+                        name: 'Later',
+                        value: 'later',
+                    },
+                    {
+                        name: 'New',
+                        value: 'new',
+                    },
+                    {
+                        name: 'Shortlist',
+                        value: 'shortlist',
+                    },
+                ],
+                description: 'The document\'s location',
+                routing: {
+                    request: {
+                        qs: {
+                            location: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Page Cursor',
+                name: 'pageCursor',
+                type: 'string',
+                default: '',
+                description: 'A string returned by a previous request to this endpoint. Use it to get the next page of documents if there are too many for one request.',
+                routing: {
+                    request: {
+                        qs: {
+                            pageCursor: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'Tag',
+                name: 'tag',
+                type: 'string',
+                default: '',
+                description: 'The document\'s tag key. Pass up to 5 tag parameters (separated by commas) to find documents having all the tags listed.',
+                routing: {
+                    request: {
+                        qs: {
+                            tag: '={{$value.split(",").map(tag => tag.trim())}}'
+                        },
+                        arrayFormat: 'repeat',
+                    }
+                },
+            },
+            {
+                displayName: 'Updated After',
+                name: 'updatedAfter',
+                type: 'dateTime',
+                default: '',
+                description: 'Fetch only documents updated after this date (ISO 8601 format)',
+                routing: {
+                    request: {
+                        qs: {
+                            updatedAfter: '={{$value}}'
+                        }
+                    }
+                }
+            },
+            {
+                displayName: 'With HTML Content',
+                name: 'withHtmlContent',
+                type: 'boolean',
+                default: false,
+                description: 'Whether to include the html_content field in each document\'s data. Please note that enabling this feature may slightly increase request processing time.',
+                routing: {
+                    request: {
+                        qs: {
+                            withHtmlContent: '={{$value}}'
+                        }
+                    }
+                }
+            },
+        ]
+    },
 
     /* -------------------------------------------------------------------------- */
     /*                                     ...                                    */
