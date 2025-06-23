@@ -4,6 +4,7 @@ import type {
 } from 'n8n-workflow';
 import { NodeConnectionType } from 'n8n-workflow';
 import { documentFields, documentOperations } from './ReaderDocumentDescription';
+import { tagFields, tagOperations } from './ReaderTagDescription';
 
 export class ReadwiseReaderNode implements INodeType {
 	description: INodeTypeDescription = {
@@ -52,6 +53,8 @@ export class ReadwiseReaderNode implements INodeType {
 			},
 			...documentOperations,
 			...documentFields,
+			...tagOperations,
+			...tagFields,
 		],
 	};
 }
